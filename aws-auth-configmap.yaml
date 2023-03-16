@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: <node_role_ARN>
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - userarn: <k8s_cluster_admin_ARN>
+      username: k8s-cluster-admin
+      groups:
+        - system:masters
+    - userarn: <prod_viewer_ARN>
+      username: prod-viewer
+      groups: 
+        - prod-viewer-role
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+
